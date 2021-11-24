@@ -1,19 +1,14 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
-import type {Node} from 'react';
+import React, {useState} from 'react';
+import ListItem from './components/ListItem';
 import {
+  Button,
+  FlatList,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   useColorScheme,
   View,
 } from 'react-native';
@@ -25,87 +20,89 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+let i = 0;
+function App() {
+  const [Name, setName] = useState('');
+  const [Price, setPrice] = useState('');
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+  const [Items, setItems] = useState([]);
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+  const addItemHandler = () => {
+    i = i + 1;
+    console.log(Name);
+    const newItem = {
+      id: i,
+      name: Name,
+      price: Price,
+    };
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    setItems([...Items, newItem]);
+    setPrice('');
+    setName('');
   };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <SafeAreaView flex={1}>
+      <View style={styles.container1}>
+        <Button title="Artan Fiyat" color={'gray'}></Button>
+        <Button title="Azalan Fiyat" color={'gray'}></Button>
+        <Button title="Tarih" color={'gray'}></Button>
+      </View>
+
+      <FlatList
+        style={styles.flat_list}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{padding: 20, paddingBottom: 100}}
+        data={Items}
+        renderItem={({item}) => <ListItem todo={item} />}
+      />
+
+      <View style={styles.add_container}>
+        <View flexGrow={1}>
+          <Text>Name</Text>
+          <TextInput
+            style={styles.textInp}
+            value={Name}
+            onChangeText={name => setName(name)}></TextInput>
+          <Text>Price</Text>
+          <TextInput
+            style={styles.textInp}
+            value={Price}
+            onChangeText={price => setPrice(price)}></TextInput>
+          <Button
+            title="Add"
+            margin={10}
+            color={'gray'}
+            onPress={addItemHandler}></Button>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    padding: 20,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  flat_list: {
+    maxHeight: '70%',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+
+  add_container: {
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 10,
   },
-  highlight: {
-    fontWeight: '700',
+  textInp: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 5,
+    marginBottom: 5,
+    height: 35,
   },
 });
 
