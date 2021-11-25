@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 5,
     justifyContent: 'space-between',
-    borderTopWidth:1,
-    borderTopColor: 'black',
+    borderBottomWidth:1,
+    borderBottomColor: 'gray',
   },
 });
 export default ListItem;

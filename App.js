@@ -28,24 +28,63 @@ function App() {
   const [Items, setItems] = useState([]);
 
   const addItemHandler = () => {
+    
     i = i + 1;
-    console.log(Name);
     const newItem = {
       id: i,
       name: Name,
       price: Price,
     };
-
-    setItems([...Items, newItem]);
+    if (Name != '' && Price != '') {
+      console.log(newItem);
+      setItems([...Items, newItem]);
+    }
     setPrice('');
     setName('');
   };
+
+  const artanHandler = () => {
+    
+    let newItems = Items.sort(
+      (a, b) => parseInt(a.price, 10) - parseInt(b.price, 10),
+    );
+
+    setItems([...newItems]);
+  };
+
+  const azalanHandler = () => {
+    let newItems = Items.sort(
+      (a, b) => parseInt(b.price, 10) - parseInt(a.price, 10),
+    );
+    setItems([...newItems]);
+  };
+
+  const tarihHandler = () => {
+    let newItems = Items.sort(
+      (a, b) => parseInt(a.id, 10) - parseInt(b.id, 10),
+    );
+    setItems([...newItems]);
+  };
+
   return (
     <SafeAreaView flex={1}>
       <View style={styles.container1}>
-        <Button title="Artan Fiyat" color={'gray'}></Button>
-        <Button title="Azalan Fiyat" color={'gray'}></Button>
-        <Button title="Tarih" color={'gray'}></Button>
+        <Button
+          style={styles.artanButton}
+          title="Artan Fiyat"
+          color={'#b5b5b5'}
+          onPress={artanHandler}
+          underlayColor={'black'}></Button>
+        <Button
+          style={styles.azalanButton}
+          title="Azalan Fiyat"
+          color={'#b5b5b5'}
+          onPress={azalanHandler}></Button>
+        <Button
+          style={styles.tarihButton}
+          title="Tarih"
+          color={'#b5b5b5'}
+          onPress={tarihHandler}></Button>
       </View>
 
       <FlatList
@@ -71,7 +110,7 @@ function App() {
           <Button
             title="Add"
             margin={10}
-            color={'gray'}
+            color={'#b5b5b5'}
             onPress={addItemHandler}></Button>
         </View>
       </View>
